@@ -24,13 +24,13 @@ def create_table(manager):
     if not folder_exists:
         os.mkdir(rf"{directory}\Managers")
     
-    df.to_csv(rf'{directory}\managers_2\{manager}.csv', index = False)
+    df.to_csv(rf'{directory}\managers\{manager}.csv', index = False)
 
 
 
 #Generate data for each manager
 def generate_data(manager, start_date, working_days, team):
-    df = pd.read_csv(rf'managers_2\{manager}.csv')
+    df = pd.read_csv(rf'managers\{manager}.csv')
     
     new_data = {
         'name' : [],
@@ -55,6 +55,10 @@ def generate_data(manager, start_date, working_days, team):
 
         yaware_minutes = random.randint(390,540) #Worktime ranges from 6:30 to 9:00
         yaware_h, yaware_m = divmod(yaware_minutes,60) #Convert the minutes to h:mm pattern
+
+        yaware_m = str(yaware_m)
+        if len(yaware_m) == 1:
+            yaware_m = (f"0{yaware_m}")
         yaware = (f"{yaware_h}.{yaware_m}")
 
         date_ = date.strftime(f" %d/%m/%Y") #Convert it to Brazil pattern
@@ -91,7 +95,7 @@ def generate_data(manager, start_date, working_days, team):
 
     #Write dictionary into the CSV file and save it
     df = pd.DataFrame(new_data)
-    df.to_csv(rf'managers_2\{manager}.csv',  mode='a', index=False, header = False)
+    df.to_csv(rf'managers\{manager}.csv',  mode='a', index=False, header = False)
 
 
 
@@ -142,15 +146,15 @@ for manager in managers:
 
 #Generate 1 CSV for all managers stats
 directory = os.getcwd()
-csv_files = os.listdir(rf'{directory}\managers_2')
+csv_files = os.listdir(rf'{directory}\managers')
 
 
 dfs = []
 
 for file in csv_files:
-    df = pd.read_csv(rf'{directory}\managers_2\{file}')
+    df = pd.read_csv(rf'{directory}\managers\{file}')
     dfs.append(df)
 
 
 merged_df = pd.concat(dfs, ignore_index=True)
-merged_df.to_csv(rf'{directory}\managers_2\_All Managers.csv', index=False)
+merged_df.to_csv(rf'{directory}\managers\_All Managers.csv', index=False)
