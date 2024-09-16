@@ -59,7 +59,7 @@ def generate_data(manager, start_date, working_days, team):
         yaware_m = str(yaware_m)
         if len(yaware_m) == 1:
             yaware_m = (f"0{yaware_m}")
-        yaware = (f"{yaware_h}.{yaware_m}")
+        yaware = (f"{yaware_h}:{yaware_m}")
 
         date_ = date.strftime(f" %d/%m/%Y") #Convert it to Brazil pattern
         
